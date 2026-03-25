@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'PP Neue Montreal', 'Helvetica Neue', 'Neue Haas Grotesk', 'Arial', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace;
+
+  --color-paper: #f5f4f0;
+  --color-ink: #0a0a0a;
+  --color-muted: #77716a;
+  --color-line: #ded9cf;
+  --color-accent: #d61f26;
+}
+
+:root {
+  color-scheme: light;
+  background: var(--color-paper);
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.7), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(214, 31, 38, 0.05), transparent 30%),
+    var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(0, 0, 0, 0.12) 0, transparent 1px),
+    radial-gradient(circle at 80% 30%, rgba(0, 0, 0, 0.08) 0, transparent 1px),
+    radial-gradient(circle at 45% 75%, rgba(0, 0, 0, 0.08) 0, transparent 1px);
+  background-size: 28px 28px;
+  mix-blend-mode: multiply;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation-name: pierce-old;
+}
+
+::view-transition-new(root) {
+  animation-name: pierce-new;
+}
+
+::view-transition-group(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  backface-visibility: hidden;
+}
+
+@keyframes pierce-old {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.995);
+  }
+}
+
+@keyframes pierce-new {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1.005);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.flip-root {
+  contain: layout paint;
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1ms;
+  }
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+.selection-invert ::selection {
+  background: #fff;
+  color: #0a0a0a;
+}
