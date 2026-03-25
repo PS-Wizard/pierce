@@ -32,7 +32,7 @@
 </script>
 
 <section
-  class={['selection-invert overflow-hidden rounded-[2rem] border border-line bg-ink text-paper shadow-[0_24px_90px_rgba(0,0,0,0.12)]', className]}
+  class={['selection-invert overflow-hidden border border-line bg-ink text-paper shadow-[0_24px_90px_rgba(0,0,0,0.12)]', className]}
 >
   <header class="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 md:px-5">
     <div class="min-w-0">
@@ -43,7 +43,7 @@
     <button
       type="button"
       onclick={copyCode}
-      class="shrink-0 rounded-full border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-paper/70 transition hover:border-white/20 hover:text-paper"
+      class="shrink-0 border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-paper/70 transition hover:border-white/20 hover:text-paper"
     >
       {copied ? 'copied' : 'copy'}
     </button>
@@ -54,7 +54,7 @@
       {@const lineNumber = index + 1}
       <div
         class={[
-          'grid grid-cols-[3rem_minmax(0,1fr)] gap-4 rounded-xl px-3 py-1.5 transition',
+          'grid grid-cols-[3rem_minmax(0,1fr)] gap-4 px-3 py-1.5 transition',
           highlights.size > 0 && !highlights.has(lineNumber) ? 'text-paper/34' : 'text-paper/90',
           highlights.has(lineNumber) ? 'bg-white/10' : '',
         ]}
