@@ -18,10 +18,10 @@
     let busy = $state(false);
 
     const activeSlide = $derived(slides[current] ?? slides[0]);
-    
+
     // Track total steps for current slide
     let currentSlideTotalSteps = $state(1);
-    
+
     function onSlideMount(totalSteps: number = 1) {
         currentSlideTotalSteps = totalSteps;
     }
@@ -118,33 +118,9 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<main class="relative min-h-dvh overflow-hidden bg-paper text-ink">
-    <div class="pointer-events-none absolute inset-0 opacity-[0.95]">
-        <div class="absolute inset-x-0 top-0 h-px bg-line/80"></div>
-        <div class="absolute inset-x-0 bottom-0 h-px bg-line/80"></div>
-        <div
-            class="absolute inset-y-0 left-[6%] hidden w-px bg-line/70 lg:block"
-        ></div>
-        <div
-            class="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-line/45 xl:block"
-        ></div>
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.75),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(214,31,38,0.05),transparent_28%)]"
-        ></div>
-    </div>
-
-    <section
-        class="relative z-10 min-h-dvh px-2 pb-2 pt-2 md:px-6 md:pb-6 md:pt-6"
-    >
-        {#if activeSlide}
-            {@const Current = activeSlide}
-            <Current {currentStep} {onSlideMount} />
-        {/if}
-    </section>
-
-    <div
-        class="pointer-events-none absolute bottom-4 left-5 z-10 font-mono text-[10px] uppercase tracking-[0.25em] text-muted md:left-8"
-    >
-        arrow keys / space
-    </div>
-</main>
+<section class="h-full">
+    {#if activeSlide}
+        {@const Current = activeSlide}
+        <Current {currentStep} {onSlideMount} />
+    {/if}
+</section>
