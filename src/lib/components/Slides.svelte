@@ -14,9 +14,17 @@
     let { slides = [] }: Props = $props();
 
     let current = $state(0);
+    let currentStep = $state(0);
     let busy = $state(false);
 
     const activeSlide = $derived(slides[current] ?? slides[0]);
+    
+    // Track total steps for current slide
+    let currentSlideTotalSteps = $state(1);
+    
+    function onSlideMount(totalSteps: number = 1) {
+        currentSlideTotalSteps = totalSteps;
+    }
 
     function clamp(index: number) {
         if (!slides.length) return 0;
@@ -26,14 +34,46 @@
     function move(direction: -1 | 1) {
         if (!slides.length || busy) return;
 
-        const nextIndex = clamp(current + direction);
+        if (direction === 1) {
+            // Moving forward
+            if (currentStep < currentSlideTotalSteps - 1) {
+                // More steps in current slide
+                transitionUpdate(() => {
+                    currentStep += 1;
+                });
+            } else {
+                // Move to next slide
+                const nextIndex = clamp(current + 1);
+                if (nextIndex !== current) {
+                    transitionUpdate(() => {
+                        current = nextIndex;
+                        currentStep = 0;
+                        currentSlideTotalSteps = 1; // Reset for next slide
+                    });
+                }
+            }
+        } else {
+            // Moving backward
+            if (currentStep > 0) {
+                // Go to previous step
+                transitionUpdate(() => {
+                    currentStep -= 1;
+                });
+            } else {
+                // Move to previous slide
+                const prevIndex = clamp(current - 1);
+                if (prevIndex !== current) {
+                    transitionUpdate(() => {
+                        current = prevIndex;
+                        currentStep = 0;
+                        currentSlideTotalSteps = 1; // Reset for previous slide
+                    });
+                }
+            }
+        }
+    }
 
-        if (nextIndex === current) return;
-
-        const update = () => {
-            current = nextIndex;
-        };
-
+    function transitionUpdate(update: () => void) {
         const transitionDocument = document as NativeTransitionDocument;
 
         if (transitionDocument.startViewTransition) {
@@ -98,7 +138,7 @@
     >
         {#if activeSlide}
             {@const Current = activeSlide}
-            <Current />
+            <Current {currentStep} {onSlideMount} />
         {/if}
     </section>
 
